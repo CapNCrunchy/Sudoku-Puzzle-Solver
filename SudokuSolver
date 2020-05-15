@@ -1,0 +1,188 @@
+#My attempt at making a sudoku Solver
+#Ver1.04
+#Logic
+#Sudoku Rules:
+#           Given numbers cannot change,
+#           The same number cannot appear twice in a COLUMN, ROW, or REGION
+#
+#Dictionary for Sudoku Spaces
+#Key is read as first number is row and the second number is column
+#Value will be 1-9 if it contains that value and 0 if it is empty
+
+SDB = {'11':'0','12':'0','13':'0','14':'0','15':'0','16':'0','17':'0','18':'0','19':'0',
+       '21':'0','22':'0','23':'0','24':'0','25':'0','26':'0','27':'0','28':'0','29':'0',
+       '31':'0','32':'0','33':'0','34':'0','35':'0','36':'0','37':'0','38':'0','39':'0',
+       '41':'0','42':'0','43':'0','44':'0','45':'0','46':'0','47':'0','48':'0','49':'0',
+       '51':'0','52':'0','53':'0','54':'0','55':'0','56':'0','57':'0','58':'0','59':'0',
+       '61':'0','62':'0','63':'0','64':'0','65':'0','66':'0','67':'0','68':'0','69':'0',
+       '71':'0','72':'0','73':'0','74':'0','75':'0','76':'0','77':'0','78':'0','79':'0',
+       '81':'0','82':'0','83':'0','84':'0','85':'0','86':'0','87':'0','88':'0','89':'0',
+       '91':'0','92':'0','93':'0','94':'0','95':'0','96':'0','97':'0','98':'0','99':'0',}
+
+RegionDictionary = {'C':{},'N':{},'S':{},'E':{},'W':{},'NW':{},'NE':{},'SW':{},'SE':{}}
+
+ColumnDictionary = {'C1':{},'C2':{},'C3':{},'C4':{},'C5':{},'C6':{},'C7':{},'C8':{},'C9':{}}
+
+RowDictionary = {'R1':{},'R2':{},'R3':{},'R4':{},'R5':{},'R6':{},'R7':{},'R8':{},'R9':{}}
+
+InputBoard = '''
+427100068
+005006300
+603000100
+200010400
+340067051
+801050020
+090000730
+704300209
+032094600
+'''
+
+TempList = []
+
+OutputBoard = ''
+
+def AssignDictValues():
+    #loops through and assigns values to the dictionary and the TempList
+    for i in range(11,100):
+        if i%10 == 0:
+            continue
+    
+        SDB[str(i)] = InputBoard[i-10]
+        TempList.append(SDB[str(i)])
+
+
+
+
+class SudokuSpace:
+    def __init__(self,row,column,region,value):
+        self.row = row
+        self.column = column
+        self.region = region
+        self.value = value
+        self.position = str(row) + str(column)
+ 
+        RowDictionary['R'+str(row)][self.position] = value
+        ColumnDictionary['C'+str(column)][self.position] = value
+        RegionDictionary[region][self.position] = value
+
+        
+
+def CreateASCIIBoard():
+
+    for c in range(3,101,11):
+    
+        TempList.insert((c),"|")
+        TempList.insert((c+4),"|")
+
+    for d in range(11,101,12):
+    
+        TempList.insert((d),"\n")
+
+    for p in range(36,101,37):
+    
+        TempList.insert((p),"-----------\n")
+
+    OutputBoard = ''.join(TempList)
+    print(OutputBoard)
+
+
+def InitSpaceClasses():
+    #Creating all 81 spaces
+    global S11,S12,S13,S14,S15,S16,S17,S18,S19,S21,S22,S23,S24,S25,S26,S27,S28,S29,S31,S32,S33,S34,S35,S36,S37,S38,S39,S41,S42,S43,S44,S45,S46,S47,S48,S49,S51,S52,S53,S54,S55,S56,S57,S58,S59,S61,S62,S63,S64,S65,S66,S67,S68,S69,S71,S72,S73,S74,S75,S76,S77,S78,S79,S81,S82,S83,S84,S85,S86,S87,S88,S89,S91,S92,S93,S94,S95,S96,S97,S98,S99
+    S11 = SudokuSpace(1,1,'NW',SDB['11'])
+    S12 = SudokuSpace(1,2,'NW',SDB['12'])
+    S13 = SudokuSpace(1,3,'NW',SDB['13'])
+    S14 = SudokuSpace(1,4,'N',SDB['14'])
+    S15 = SudokuSpace(1,5,'N',SDB['15'])
+    S16 = SudokuSpace(1,6,'N',SDB['16'])
+    S17 = SudokuSpace(1,7,'NE',SDB['17'])
+    S18 = SudokuSpace(1,8,'NE',SDB['18'])
+    S19 = SudokuSpace(1,9,'NE',SDB['19'])
+    
+    S21 = SudokuSpace(2,1,'NW',SDB['21'])
+    S22 = SudokuSpace(2,2,'NW',SDB['22'])
+    S23 = SudokuSpace(2,3,'NW',SDB['23'])
+    S24 = SudokuSpace(2,4,'N',SDB['24'])
+    S25 = SudokuSpace(2,5,'N',SDB['25'])
+    S26 = SudokuSpace(2,6,'N',SDB['26'])
+    S27 = SudokuSpace(2,7,'NE',SDB['27'])
+    S28 = SudokuSpace(2,8,'NE',SDB['28'])
+    S29 = SudokuSpace(2,9,'NE',SDB['29'])
+
+    S31 = SudokuSpace(3,1,'NW',SDB['31'])
+    S32 = SudokuSpace(3,2,'NW',SDB['32'])
+    S33 = SudokuSpace(3,3,'NW',SDB['33'])
+    S34 = SudokuSpace(3,4,'N',SDB['34'])
+    S35 = SudokuSpace(3,5,'N',SDB['35'])
+    S36 = SudokuSpace(3,6,'N',SDB['36'])
+    S37 = SudokuSpace(3,7,'NE',SDB['37'])
+    S38 = SudokuSpace(3,8,'NE',SDB['38'])
+    S39 = SudokuSpace(3,9,'NE',SDB['39'])
+
+    S41 = SudokuSpace(4,1,'W',SDB['41'])
+    S42 = SudokuSpace(4,2,'W',SDB['42'])
+    S43 = SudokuSpace(4,3,'W',SDB['43'])
+    S44 = SudokuSpace(4,4,'C',SDB['44'])
+    S45 = SudokuSpace(4,5,'C',SDB['45'])
+    S46 = SudokuSpace(4,6,'C',SDB['46'])
+    S47 = SudokuSpace(4,7,'E',SDB['47'])
+    S48 = SudokuSpace(4,8,'E',SDB['48'])
+    S49 = SudokuSpace(4,9,'E',SDB['49'])
+
+    S51 = SudokuSpace(5,1,'W',SDB['51'])
+    S52 = SudokuSpace(5,2,'W',SDB['52'])
+    S53 = SudokuSpace(5,3,'W',SDB['53'])
+    S54 = SudokuSpace(5,4,'C',SDB['54'])
+    S55 = SudokuSpace(5,5,'C',SDB['55'])
+    S56 = SudokuSpace(5,6,'C',SDB['56'])
+    S57 = SudokuSpace(5,7,'E',SDB['57'])
+    S58 = SudokuSpace(5,8,'E',SDB['58'])
+    S59 = SudokuSpace(5,9,'E',SDB['59'])
+
+    S61 = SudokuSpace(6,1,'W',SDB['61'])
+    S62 = SudokuSpace(6,2,'W',SDB['62'])
+    S63 = SudokuSpace(6,3,'W',SDB['63'])
+    S64 = SudokuSpace(6,4,'C',SDB['64'])
+    S65 = SudokuSpace(6,5,'C',SDB['65'])
+    S66 = SudokuSpace(6,6,'C',SDB['66'])
+    S67 = SudokuSpace(6,7,'E',SDB['67'])
+    S68 = SudokuSpace(6,8,'E',SDB['68'])
+    S69 = SudokuSpace(6,9,'E',SDB['69'])
+    
+    S71 = SudokuSpace(7,1,'SW',SDB['71'])
+    S72 = SudokuSpace(7,2,'SW',SDB['72'])
+    S73 = SudokuSpace(7,3,'SW',SDB['73'])
+    S74 = SudokuSpace(7,4,'S',SDB['74'])
+    S75 = SudokuSpace(7,5,'S',SDB['75'])
+    S76 = SudokuSpace(7,6,'S',SDB['76'])
+    S77 = SudokuSpace(7,7,'SE',SDB['77'])
+    S78 = SudokuSpace(7,8,'SE',SDB['78'])
+    S79 = SudokuSpace(7,9,'SE',SDB['79'])
+    
+    S81 = SudokuSpace(8,1,'SW',SDB['81'])
+    S82 = SudokuSpace(8,2,'SW',SDB['82'])
+    S83 = SudokuSpace(8,3,'SW',SDB['83'])
+    S84 = SudokuSpace(8,4,'S',SDB['84'])
+    S85 = SudokuSpace(8,5,'S',SDB['85'])
+    S86 = SudokuSpace(8,6,'S',SDB['86'])
+    S87 = SudokuSpace(8,7,'SE',SDB['87'])
+    S88 = SudokuSpace(8,8,'SE',SDB['88'])
+    S89 = SudokuSpace(8,9,'SE',SDB['89'])
+
+    S91 = SudokuSpace(9,1,'SW',SDB['91'])
+    S92 = SudokuSpace(9,2,'SW',SDB['92'])
+    S93 = SudokuSpace(9,3,'SW',SDB['93'])
+    S94 = SudokuSpace(9,4,'S',SDB['94'])
+    S95 = SudokuSpace(9,5,'S',SDB['95'])
+    S96 = SudokuSpace(9,6,'S',SDB['96'])
+    S97 = SudokuSpace(9,7,'SE',SDB['97'])
+    S98 = SudokuSpace(9,8,'SE',SDB['98'])
+    S99 = SudokuSpace(9,9,'SE',SDB['99'])
+
+
+def Main():
+    AssignDictValues()
+    CreateASCIIBoard()
+    InitSpaceClasses()
+
+Main()
