@@ -1,5 +1,5 @@
 #My attempt at making a sudoku Solver
-#Ver1.04
+
 #Logic
 #Sudoku Rules:
 #           Given numbers cannot change,
@@ -38,17 +38,19 @@ InputBoard = '''
 '''
 
 TempList = []
+SpaceList= []
+
 
 OutputBoard = ''
 
 def AssignDictValues():
-    #loops through and assigns values to the dictionary and the TempList
+    #loops through and assigns values to the dictionary
     for i in range(11,100):
         if i%10 == 0:
             continue
     
         SDB[str(i)] = InputBoard[i-10]
-        TempList.append(SDB[str(i)])
+        
 
 
 
@@ -65,10 +67,42 @@ class SudokuSpace:
         ColumnDictionary['C'+str(column)][self.position] = value
         RegionDictionary[region][self.position] = value
 
+
+def Logic():
+    
+    for i in range(0,81):
         
+        if int(SpaceList[i].value) == 0:
+            #print(SpaceList[i].value)
+            PossibleNums = []
+            for num in range(1,10):
+                
+                if str(num) in RowDictionary['R' + str(SpaceList[i].row)].values():
+                    #print(PossibleNums)
+                    continue
+                elif str(num) in ColumnDictionary['C' + str(SpaceList[i].column)].values():
+                    #print(PossibleNums)
+                    continue
+                elif str(num) in RegionDictionary[str(SpaceList[i].region)].values():
+                    #print(PossibleNums)
+                    continue
+                else:
+                    #PossibleNums.append(num)
+                #print(PossibleNums)
+            if len(PossibleNums) == 1:
+                SpaceList[i].value = PossibleNums[0]
+                RowDictionary['R' + str(SpaceList[i].row)][str(SpaceList[i].position)] = str(SpaceList[i].value) 
+                ColumnDictionary['C' + str(SpaceList[i].column)][str(SpaceList[i].position)] = str(SpaceList[i].value)
+                RegionDictionary[str(SpaceList[i].region)][str(SpaceList[i].position)] = str(SpaceList[i].value)
+                #print(SpaceList[i].value)
+    
+    
 
 def CreateASCIIBoard():
-
+    TempList.clear()
+    OutputBoard = ''
+    for V in range(0,81):
+        TempList.append(str(SpaceList[V].value))
     for c in range(3,101,11):
     
         TempList.insert((c),"|")
@@ -89,6 +123,8 @@ def CreateASCIIBoard():
 def InitSpaceClasses():
     #Creating all 81 spaces
     global S11,S12,S13,S14,S15,S16,S17,S18,S19,S21,S22,S23,S24,S25,S26,S27,S28,S29,S31,S32,S33,S34,S35,S36,S37,S38,S39,S41,S42,S43,S44,S45,S46,S47,S48,S49,S51,S52,S53,S54,S55,S56,S57,S58,S59,S61,S62,S63,S64,S65,S66,S67,S68,S69,S71,S72,S73,S74,S75,S76,S77,S78,S79,S81,S82,S83,S84,S85,S86,S87,S88,S89,S91,S92,S93,S94,S95,S96,S97,S98,S99
+    
+    
     S11 = SudokuSpace(1,1,'NW',SDB['11'])
     S12 = SudokuSpace(1,2,'NW',SDB['12'])
     S13 = SudokuSpace(1,3,'NW',SDB['13'])
@@ -178,11 +214,15 @@ def InitSpaceClasses():
     S97 = SudokuSpace(9,7,'SE',SDB['97'])
     S98 = SudokuSpace(9,8,'SE',SDB['98'])
     S99 = SudokuSpace(9,9,'SE',SDB['99'])
+    SpaceList.extend((S11,S12,S13,S14,S15,S16,S17,S18,S19,S21,S22,S23,S24,S25,S26,S27,S28,S29,S31,S32,S33,S34,S35,S36,S37,S38,S39,S41,S42,S43,S44,S45,S46,S47,S48,S49,S51,S52,S53,S54,S55,S56,S57,S58,S59,S61,S62,S63,S64,S65,S66,S67,S68,S69,S71,S72,S73,S74,S75,S76,S77,S78,S79,S81,S82,S83,S84,S85,S86,S87,S88,S89,S91,S92,S93,S94,S95,S96,S97,S98,S99))
 
 
 def Main():
     AssignDictValues()
-    CreateASCIIBoard()
     InitSpaceClasses()
+    CreateASCIIBoard()
+    Logic()
+    print('\n\n')
+    CreateASCIIBoard()
 
 Main()
