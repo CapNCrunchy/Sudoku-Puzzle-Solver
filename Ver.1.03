@@ -1,0 +1,102 @@
+#My attempt at making a sudoku Solver
+
+#Logic
+#Sudoku Rules:
+#           Given numbers cannot change,
+#           The same number cannot appear twice in a COLUMN, ROW, or REGION
+#
+#Dictionary for Sudoku Spaces
+#Key is read as first number is x and the second number is y
+#Value will be 1-9 if it contains that value and 0 if it is empty
+
+SDB = {'11':'0','12':'0','13':'0','14':'0','15':'0','16':'0','17':'0','18':'0','19':'0',
+       '21':'0','22':'0','23':'0','24':'0','25':'0','26':'0','27':'0','28':'0','29':'0',
+       '31':'0','32':'0','33':'0','34':'0','35':'0','36':'0','37':'0','38':'0','39':'0',
+       '41':'0','42':'0','43':'0','44':'0','45':'0','46':'0','47':'0','48':'0','49':'0',
+       '51':'0','52':'0','53':'0','54':'0','55':'0','56':'0','57':'0','58':'0','59':'0',
+       '61':'0','62':'0','63':'0','64':'0','65':'0','66':'0','67':'0','68':'0','69':'0',
+       '71':'0','72':'0','73':'0','74':'0','75':'0','76':'0','77':'0','78':'0','79':'0',
+       '81':'0','82':'0','83':'0','84':'0','85':'0','86':'0','87':'0','88':'0','89':'0',
+       '91':'0','92':'0','93':'0','94':'0','95':'0','96':'0','97':'0','98':'0','99':'0',}
+
+RegionDictionary = {'C':{},'N':{},'S':{},'E':{},'W':{},'NW':{},'NE':{},'SW':{},'SE':{}}
+
+ColumnDictionary = {'C1':{},'C2':{},'C3':{},'C4':{},'C5':{},'C6':{},'C7':{},'C8':{},'C9':{}}
+
+RowDictionary = {'R1':{},'R2':{},'R3':{},'R4':{},'R5':{},'R6':{},'R7':{},'R8':{},'R9':{}}
+
+InputBoard = '''
+427100068
+005006300
+603000100
+200010400
+340067051
+801050020
+090000730
+704300209
+032094600
+'''
+
+TempList = []
+
+OutputBoard = ''
+
+def AssignDictValues():
+    #loops through and assigns values to the dictionary and the TempList
+    for i in range(11,100):
+        if i%10 == 0:
+            continue
+    
+        SDB[str(i)] = InputBoard[i-10]
+        TempList.append(SDB[str(i)])
+
+
+
+
+class SudokuSpace:
+    def __init__(self,row,column,region,value):
+        self.row = row
+        self.column = column
+        self.region = region
+        self.value = value
+        self.position = str(row) + str(column)
+ 
+        RowDictionary['R'+str(row)][self.position] = value
+        ColumnDictionary['C'+str(column)][self.position] = value
+        RegionDictionary[region][self.position] = value
+
+        
+
+
+def CreateASCIIBoard():
+
+    for c in range(3,101,11):
+    
+        TempList.insert((c),"|")
+        TempList.insert((c+4),"|")
+
+    for d in range(11,101,12):
+    
+        TempList.insert((d),"\n")
+
+    for p in range(36,101,37):
+    
+        TempList.insert((p),"-----------\n")
+
+    OutputBoard = ''.join(TempList)
+    print(OutputBoard)
+
+AssignDictValues()
+
+S11 = SudokuSpace(1,1,'NW',SDB['11'])
+
+
+
+def Main():
+    
+    CreateASCIIBoard()
+    print(RowDictionary['R1'])
+    print(S11.value)
+
+
+Main()
