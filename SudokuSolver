@@ -37,9 +37,23 @@ InputBoard = '''
 032094600
 '''
 
+InputBoard = '''
+070020005
+340050700
+050074891
+600090050
+407800000
+000000007
+000500470
+008400060
+000012000
+'''
+
+
 TempList = []
 SpaceList= []
-
+PreIteration=[]
+PostIteration=[]
 
 OutputBoard = ''
 
@@ -62,40 +76,56 @@ class SudokuSpace:
         self.region = region
         self.value = value
         self.position = str(row) + str(column)
+        self.pNums = []
  
         RowDictionary['R'+str(row)][self.position] = value
         ColumnDictionary['C'+str(column)][self.position] = value
         RegionDictionary[region][self.position] = value
 
+        
 
 def Logic():
     
-    for i in range(0,81):
-        
-        if int(SpaceList[i].value) == 0:
-            #print(SpaceList[i].value)
+    while True:
+        PreIteration.clear()
+        for V in range(0,81):
+            PreIteration.append(str(SpaceList[V].value))
+            
+        for i in range(0,81):
+
+            SpaceList[i].pNums =[]
             PossibleNums = []
-            for num in range(1,10):
+            if int(SpaceList[i].value) == 0:
                 
-                if str(num) in RowDictionary['R' + str(SpaceList[i].row)].values():
-                    #print(PossibleNums)
-                    continue
-                elif str(num) in ColumnDictionary['C' + str(SpaceList[i].column)].values():
-                    #print(PossibleNums)
-                    continue
-                elif str(num) in RegionDictionary[str(SpaceList[i].region)].values():
-                    #print(PossibleNums)
-                    continue
-                else:
-                    #PossibleNums.append(num)
-                #print(PossibleNums)
-            if len(PossibleNums) == 1:
-                SpaceList[i].value = PossibleNums[0]
-                RowDictionary['R' + str(SpaceList[i].row)][str(SpaceList[i].position)] = str(SpaceList[i].value) 
-                ColumnDictionary['C' + str(SpaceList[i].column)][str(SpaceList[i].position)] = str(SpaceList[i].value)
-                RegionDictionary[str(SpaceList[i].region)][str(SpaceList[i].position)] = str(SpaceList[i].value)
-                #print(SpaceList[i].value)
-    
+                #Checking the columns/rows/regions
+                for num in range(1,10):
+                
+                    if str(num) in RowDictionary['R' + str(SpaceList[i].row)].values():
+                        continue
+                    elif str(num) in ColumnDictionary['C' + str(SpaceList[i].column)].values():
+                        continue
+                    elif str(num) in RegionDictionary[str(SpaceList[i].region)].values():
+                        continue
+                    else:
+                        PossibleNums.append(str(num))
+                    
+                if len(PossibleNums) == 1:
+                    SpaceList[i].value = PossibleNums[0]
+                    RowDictionary['R' + str(SpaceList[i].row)][str(SpaceList[i].position)] = str(SpaceList[i].value) 
+                    ColumnDictionary['C' + str(SpaceList[i].column)][str(SpaceList[i].position)] = str(SpaceList[i].value)
+                    RegionDictionary[str(SpaceList[i].region)][str(SpaceList[i].position)] = str(SpaceList[i].value)
+            SpaceList[i].pNums.append(PossibleNums)
+
+
+        #Checks for any change within the board
+        PostIteration.clear()
+        for V in range(0,81):
+            PostIteration.append(str(SpaceList[V].value))
+        
+        if PreIteration == PostIteration:
+            break
+        
+            
     
 
 def CreateASCIIBoard():
@@ -224,5 +254,7 @@ def Main():
     Logic()
     print('\n\n')
     CreateASCIIBoard()
+    print(SpaceList[0].pNums)
+    
 
 Main()
