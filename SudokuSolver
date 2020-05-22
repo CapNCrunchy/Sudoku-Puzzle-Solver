@@ -26,35 +26,26 @@ ColumnDictionary = {'C1':{},'C2':{},'C3':{},'C4':{},'C5':{},'C6':{},'C7':{},'C8'
 RowDictionary = {'R1':{},'R2':{},'R3':{},'R4':{},'R5':{},'R6':{},'R7':{},'R8':{},'R9':{}}
 
 InputBoard = '''
-427100068
-005006300
-603000100
-200010400
-340067051
-801050020
-090000730
-704300209
-032094600
+080060001
+007001009
+600409087
+000000940
+045000008
+000020500
+300000090
+420600000
+001200700
 '''
 
-InputBoard = '''
-070020005
-340050700
-050074891
-600090050
-407800000
-000000007
-000500470
-008400060
-000012000
-'''
+
 
 
 TempList = []
 SpaceList= []
 PreIteration=[]
 PostIteration=[]
-
+PreLoop=[]
+PostLoop=[]
 OutputBoard = ''
 
 def AssignDictValues():
@@ -124,9 +115,6 @@ def Logic():
         
         if PreIteration == PostIteration:
             break
-
-    print('\n\n')
-    CreateASCIIBoard()
     
     while True:
         PreIteration.clear()
@@ -176,8 +164,6 @@ def Logic():
         
         if PreIteration == PostIteration:
             break
-    print('\n\n')
-    CreateASCIIBoard()
             
     
 def PositionToListPlace_inator(position):
@@ -206,7 +192,10 @@ def CreateASCIIBoard():
     TempList.clear()
     OutputBoard = ''
     for V in range(0,81):
-        TempList.append(str(SpaceList[V].value))
+        if int(SpaceList[V].value) == 0:
+            TempList.append(' ')
+        else:
+            TempList.append(str(SpaceList[V].value))
     for c in range(3,101,11):
     
         TempList.insert((c),"|")
@@ -320,16 +309,28 @@ def InitSpaceClasses():
     S99 = SudokuSpace(9,9,'SE',SDB['99'])
     SpaceList.extend((S11,S12,S13,S14,S15,S16,S17,S18,S19,S21,S22,S23,S24,S25,S26,S27,S28,S29,S31,S32,S33,S34,S35,S36,S37,S38,S39,S41,S42,S43,S44,S45,S46,S47,S48,S49,S51,S52,S53,S54,S55,S56,S57,S58,S59,S61,S62,S63,S64,S65,S66,S67,S68,S69,S71,S72,S73,S74,S75,S76,S77,S78,S79,S81,S82,S83,S84,S85,S86,S87,S88,S89,S91,S92,S93,S94,S95,S96,S97,S98,S99))
 
+def LogicLoop():
+    
+    while True:
+        PreLoop.clear()
+        for V in range(0,81):
+            PreLoop.append(str(SpaceList[V].value))
 
+        Logic()
+        
+        PostLoop.clear()
+        for V in range(0,81):
+            PostLoop.append(str(SpaceList[V].value))
+        
+        if PreLoop == PostLoop:
+            break
+        
 def Main():
     AssignDictValues()
     InitSpaceClasses()
     CreateASCIIBoard()
-    Logic()
-    Logic()
-    Logic()
-    Logic()
-    #print(SpaceList[51].pNums)
+    LogicLoop()
+    CreateASCIIBoard()
     
 
 Main()
