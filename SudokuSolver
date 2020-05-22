@@ -114,8 +114,8 @@ def Logic():
                     RowDictionary['R' + str(SpaceList[i].row)][str(SpaceList[i].position)] = str(SpaceList[i].value) 
                     ColumnDictionary['C' + str(SpaceList[i].column)][str(SpaceList[i].position)] = str(SpaceList[i].value)
                     RegionDictionary[str(SpaceList[i].region)][str(SpaceList[i].position)] = str(SpaceList[i].value)
-            SpaceList[i].pNums.append(PossibleNums)
 
+            SpaceList[i].pNums = PossibleNums
 
         #Checks for any change within the board
         PostIteration.clear()
@@ -124,10 +124,84 @@ def Logic():
         
         if PreIteration == PostIteration:
             break
+
+    print('\n\n')
+    CreateASCIIBoard()
+    
+    while True:
+        PreIteration.clear()
+        for V in range(0,81):
+            PreIteration.append(str(SpaceList[V].value))
+
+#Checking each region using the only one principal
+        for NumInQuestion in range(1,10):
+            for region in RegionDictionary.keys():
+                PossibleSpace =[]
+                
+                for positions in RegionDictionary[str(region)].keys():
+                    for value in SpaceList[PositionToListPlace_inator(int(positions))].pNums:
+                        if value == str(NumInQuestion):
+                            PossibleSpace.append(positions)
+                if len(PossibleSpace) == 1:
+                    SpaceList[PositionToListPlace_inator(int(PossibleSpace[0]))].value = NumInQuestion
+#Checking each column                    
+        for NumInQuestion in range(1,10):
+            for column in ColumnDictionary.keys():
+                PossibleSpace =[]
+                
+                for positions in ColumnDictionary[str(column)].keys():
+                    for value in SpaceList[PositionToListPlace_inator(int(positions))].pNums:
+                        if value == str(NumInQuestion):
+                            PossibleSpace.append(positions)
+                if len(PossibleSpace) == 1:
+                    SpaceList[PositionToListPlace_inator(int(PossibleSpace[0]))].value = NumInQuestion
+#Checking each row
+        for NumInQuestion in range(1,10):
+            for row in RowDictionary.keys():
+                PossibleSpace =[]
+                
+                for positions in RowDictionary[str(row)].keys():
+                    for value in SpaceList[PositionToListPlace_inator(int(positions))].pNums:
+                        if value == str(NumInQuestion):
+                            PossibleSpace.append(positions)
+                if len(PossibleSpace) == 1:
+                    SpaceList[PositionToListPlace_inator(int(PossibleSpace[0]))].value = NumInQuestion        
+                  
+            
+
+        #Checks for any change within the board
+        PostIteration.clear()
+        for V in range(0,81):
+            PostIteration.append(str(SpaceList[V].value))
         
+        if PreIteration == PostIteration:
+            break
+    print('\n\n')
+    CreateASCIIBoard()
             
     
-
+def PositionToListPlace_inator(position):
+    ListPlace = None
+    if position >= 11 and position < 21:
+        ListPlace = position-11
+    elif position >= 21 and position < 31:
+        ListPlace = position-12
+    elif position >= 31 and position < 41:
+        ListPlace = position-13
+    elif position >= 41 and position < 51:
+        ListPlace = position-14
+    elif position >= 51 and position < 61:
+        ListPlace = position-15
+    elif position >= 61 and position < 71:
+        ListPlace = position-16
+    elif position >= 71 and position < 81:
+        ListPlace = position-17
+    elif position >= 81 and position < 91:
+        ListPlace = position-18
+    elif position >= 91 and position < 100:
+        ListPlace = position - 19
+    return ListPlace
+        
 def CreateASCIIBoard():
     TempList.clear()
     OutputBoard = ''
@@ -252,9 +326,10 @@ def Main():
     InitSpaceClasses()
     CreateASCIIBoard()
     Logic()
-    print('\n\n')
-    CreateASCIIBoard()
-    print(SpaceList[0].pNums)
+    Logic()
+    Logic()
+    Logic()
+    #print(SpaceList[51].pNums)
     
 
 Main()
