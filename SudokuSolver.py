@@ -9,328 +9,115 @@
 #Key is read as first number is row and the second number is column
 #Value will be 1-9 if it contains that value and 0 if it is empty
 
-SDB = {'11':'0','12':'0','13':'0','14':'0','15':'0','16':'0','17':'0','18':'0','19':'0',
-       '21':'0','22':'0','23':'0','24':'0','25':'0','26':'0','27':'0','28':'0','29':'0',
-       '31':'0','32':'0','33':'0','34':'0','35':'0','36':'0','37':'0','38':'0','39':'0',
-       '41':'0','42':'0','43':'0','44':'0','45':'0','46':'0','47':'0','48':'0','49':'0',
-       '51':'0','52':'0','53':'0','54':'0','55':'0','56':'0','57':'0','58':'0','59':'0',
-       '61':'0','62':'0','63':'0','64':'0','65':'0','66':'0','67':'0','68':'0','69':'0',
-       '71':'0','72':'0','73':'0','74':'0','75':'0','76':'0','77':'0','78':'0','79':'0',
-       '81':'0','82':'0','83':'0','84':'0','85':'0','86':'0','87':'0','88':'0','89':'0',
-       '91':'0','92':'0','93':'0','94':'0','95':'0','96':'0','97':'0','98':'0','99':'0',}
 
-RegionDictionary = {'C':{},'N':{},'S':{},'E':{},'W':{},'NW':{},'NE':{},'SW':{},'SE':{}}
+SudokuBoard = {'R1C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]},
+                'R1C2':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C3':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C4':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C5':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C6':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C7':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C8':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R1C9':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #First row^
+                'R2C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C2':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C3':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C4':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C5':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C6':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C7':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C8':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R2C9':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Second row^
+                'R3C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C2':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C3':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C4':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C5':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C6':{'region':'N', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C7':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C8':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R3C9':{'region':'NE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Third row^
+                'R4C1':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C2':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C3':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C4':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C5':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C6':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C7':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C8':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R4C9':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Fourth row^
+                'R5C1':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C2':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C3':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C4':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C5':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C6':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C7':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C8':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R5C9':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Fifth row^
+                'R6C1':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C2':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C3':{'region':'W', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C4':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C5':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C6':{'region':'C', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C7':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C8':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R6C9':{'region':'E', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Sixth row^
+                'R7C1':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C2':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C3':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C4':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C5':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C6':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C7':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C8':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R7C9':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Seventh row^
+                'R8C1':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C2':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C3':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C4':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C5':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C6':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C7':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C8':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R8C9':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Eighth row^
+                'R9C1':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C2':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C3':{'region':'SW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C4':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C5':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C6':{'region':'S', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C7':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C8':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                'R9C9':{'region':'SE', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]}
+                #Ninth row^
+                }
 
-ColumnDictionary = {'C1':{},'C2':{},'C3':{},'C4':{},'C5':{},'C6':{},'C7':{},'C8':{},'C9':{}}
-
-RowDictionary = {'R1':{},'R2':{},'R3':{},'R4':{},'R5':{},'R6':{},'R7':{},'R8':{},'R9':{}}
-
-InputBoard = '''
-080060001
-007001009
-600409087
-000000940
-045000008
-000020500
-300000090
-420600000
-001200700
+inputBoard = '''
+000|000|000
+000|000|000
+000|000|000
+-----------
+000|000|000
+000|000|000
+000|000|000
+-----------
+000|000|000
+000|000|000
+000|000|000
 '''
+def importInputBoard(board){
+    #loop through using regex to check for a number
+    #counter to keep track of position on the input board
 
-#DUMMIES
-
-
-TempList = []
-SpaceList= []
-PreIteration=[]
-PostIteration=[]
-PreLoop=[]
-PostLoop=[]
-OutputBoard = ''
-
-def AssignDictValues():
-    #loops through and assigns values to the dictionary
-    for i in range(11,100):
-        if i%10 == 0:
-            continue
     
-        SDB[str(i)] = InputBoard[i-10]
-        
-
-
-
-
-class SudokuSpace:
-    def __init__(self,row,column,region,value):
-        self.row = row
-        self.column = column
-        self.region = region
-        self.value = value
-        self.position = str(row) + str(column)
-        self.pNums = []
- 
-        RowDictionary['R'+str(row)][self.position] = value
-        ColumnDictionary['C'+str(column)][self.position] = value
-        RegionDictionary[region][self.position] = value
-
-        
-
-def Logic():
-    
-    while True:
-        PreIteration.clear()
-        for V in range(0,81):
-            PreIteration.append(str(SpaceList[V].value))
-            
-        for i in range(0,81):
-
-            SpaceList[i].pNums =[]
-            PossibleNums = []
-            if int(SpaceList[i].value) == 0:
-                
-                #Checking the columns/rows/regions
-                for num in range(1,10):
-                
-                    if str(num) in RowDictionary['R' + str(SpaceList[i].row)].values():
-                        continue
-                    elif str(num) in ColumnDictionary['C' + str(SpaceList[i].column)].values():
-                        continue
-                    elif str(num) in RegionDictionary[str(SpaceList[i].region)].values():
-                        continue
-                    else:
-                        PossibleNums.append(str(num))
-                    
-                if len(PossibleNums) == 1:
-                    SpaceList[i].value = PossibleNums[0]
-                    RowDictionary['R' + str(SpaceList[i].row)][str(SpaceList[i].position)] = str(SpaceList[i].value) 
-                    ColumnDictionary['C' + str(SpaceList[i].column)][str(SpaceList[i].position)] = str(SpaceList[i].value)
-                    RegionDictionary[str(SpaceList[i].region)][str(SpaceList[i].position)] = str(SpaceList[i].value)
-
-            SpaceList[i].pNums = PossibleNums
-
-        #Checks for any change within the board
-        PostIteration.clear()
-        for V in range(0,81):
-            PostIteration.append(str(SpaceList[V].value))
-        
-        if PreIteration == PostIteration:
-            break
-    
-    while True:
-        PreIteration.clear()
-        for V in range(0,81):
-            PreIteration.append(str(SpaceList[V].value))
-
-#Checking each region using the only one principal
-        for NumInQuestion in range(1,10):
-            for region in RegionDictionary.keys():
-                PossibleSpace =[]
-                
-                for positions in RegionDictionary[str(region)].keys():
-                    for value in SpaceList[PositionToListPlace_inator(int(positions))].pNums:
-                        if value == str(NumInQuestion):
-                            PossibleSpace.append(positions)
-                if len(PossibleSpace) == 1:
-                    SpaceList[PositionToListPlace_inator(int(PossibleSpace[0]))].value = NumInQuestion
-#Checking each column                    
-        for NumInQuestion in range(1,10):
-            for column in ColumnDictionary.keys():
-                PossibleSpace =[]
-                
-                for positions in ColumnDictionary[str(column)].keys():
-                    for value in SpaceList[PositionToListPlace_inator(int(positions))].pNums:
-                        if value == str(NumInQuestion):
-                            PossibleSpace.append(positions)
-                if len(PossibleSpace) == 1:
-                    SpaceList[PositionToListPlace_inator(int(PossibleSpace[0]))].value = NumInQuestion
-#Checking each row
-        for NumInQuestion in range(1,10):
-            for row in RowDictionary.keys():
-                PossibleSpace =[]
-                
-                for positions in RowDictionary[str(row)].keys():
-                    for value in SpaceList[PositionToListPlace_inator(int(positions))].pNums:
-                        if value == str(NumInQuestion):
-                            PossibleSpace.append(positions)
-                if len(PossibleSpace) == 1:
-                    SpaceList[PositionToListPlace_inator(int(PossibleSpace[0]))].value = NumInQuestion        
-                  
-            
-
-        #Checks for any change within the board
-        PostIteration.clear()
-        for V in range(0,81):
-            PostIteration.append(str(SpaceList[V].value))
-        
-        if PreIteration == PostIteration:
-            break
-            
-    
-def PositionToListPlace_inator(position):
-    ListPlace = None
-    if position >= 11 and position < 21:
-        ListPlace = position-11
-    elif position >= 21 and position < 31:
-        ListPlace = position-12
-    elif position >= 31 and position < 41:
-        ListPlace = position-13
-    elif position >= 41 and position < 51:
-        ListPlace = position-14
-    elif position >= 51 and position < 61:
-        ListPlace = position-15
-    elif position >= 61 and position < 71:
-        ListPlace = position-16
-    elif position >= 71 and position < 81:
-        ListPlace = position-17
-    elif position >= 81 and position < 91:
-        ListPlace = position-18
-    elif position >= 91 and position < 100:
-        ListPlace = position - 19
-    return ListPlace
-        
-def CreateASCIIBoard():
-    TempList.clear()
-    OutputBoard = ''
-    for V in range(0,81):
-        if int(SpaceList[V].value) == 0:
-            TempList.append(' ')
-        else:
-            TempList.append(str(SpaceList[V].value))
-    for c in range(3,101,11):
-    
-        TempList.insert((c),"|")
-        TempList.insert((c+4),"|")
-
-    for d in range(11,101,12):
-    
-        TempList.insert((d),"\n")
-
-    for p in range(36,101,37):
-    
-        TempList.insert((p),"-----------\n")
-
-    OutputBoard = ''.join(TempList)
-    print(OutputBoard)
-
-
-def InitSpaceClasses():
-    #Creating all 81 spaces
-    global S11,S12,S13,S14,S15,S16,S17,S18,S19,S21,S22,S23,S24,S25,S26,S27,S28,S29,S31,S32,S33,S34,S35,S36,S37,S38,S39,S41,S42,S43,S44,S45,S46,S47,S48,S49,S51,S52,S53,S54,S55,S56,S57,S58,S59,S61,S62,S63,S64,S65,S66,S67,S68,S69,S71,S72,S73,S74,S75,S76,S77,S78,S79,S81,S82,S83,S84,S85,S86,S87,S88,S89,S91,S92,S93,S94,S95,S96,S97,S98,S99
-    
-    
-    S11 = SudokuSpace(1,1,'NW',SDB['11'])
-    S12 = SudokuSpace(1,2,'NW',SDB['12'])
-    S13 = SudokuSpace(1,3,'NW',SDB['13'])
-    S14 = SudokuSpace(1,4,'N',SDB['14'])
-    S15 = SudokuSpace(1,5,'N',SDB['15'])
-    S16 = SudokuSpace(1,6,'N',SDB['16'])
-    S17 = SudokuSpace(1,7,'NE',SDB['17'])
-    S18 = SudokuSpace(1,8,'NE',SDB['18'])
-    S19 = SudokuSpace(1,9,'NE',SDB['19'])
-    
-    S21 = SudokuSpace(2,1,'NW',SDB['21'])
-    S22 = SudokuSpace(2,2,'NW',SDB['22'])
-    S23 = SudokuSpace(2,3,'NW',SDB['23'])
-    S24 = SudokuSpace(2,4,'N',SDB['24'])
-    S25 = SudokuSpace(2,5,'N',SDB['25'])
-    S26 = SudokuSpace(2,6,'N',SDB['26'])
-    S27 = SudokuSpace(2,7,'NE',SDB['27'])
-    S28 = SudokuSpace(2,8,'NE',SDB['28'])
-    S29 = SudokuSpace(2,9,'NE',SDB['29'])
-
-    S31 = SudokuSpace(3,1,'NW',SDB['31'])
-    S32 = SudokuSpace(3,2,'NW',SDB['32'])
-    S33 = SudokuSpace(3,3,'NW',SDB['33'])
-    S34 = SudokuSpace(3,4,'N',SDB['34'])
-    S35 = SudokuSpace(3,5,'N',SDB['35'])
-    S36 = SudokuSpace(3,6,'N',SDB['36'])
-    S37 = SudokuSpace(3,7,'NE',SDB['37'])
-    S38 = SudokuSpace(3,8,'NE',SDB['38'])
-    S39 = SudokuSpace(3,9,'NE',SDB['39'])
-
-    S41 = SudokuSpace(4,1,'W',SDB['41'])
-    S42 = SudokuSpace(4,2,'W',SDB['42'])
-    S43 = SudokuSpace(4,3,'W',SDB['43'])
-    S44 = SudokuSpace(4,4,'C',SDB['44'])
-    S45 = SudokuSpace(4,5,'C',SDB['45'])
-    S46 = SudokuSpace(4,6,'C',SDB['46'])
-    S47 = SudokuSpace(4,7,'E',SDB['47'])
-    S48 = SudokuSpace(4,8,'E',SDB['48'])
-    S49 = SudokuSpace(4,9,'E',SDB['49'])
-
-    S51 = SudokuSpace(5,1,'W',SDB['51'])
-    S52 = SudokuSpace(5,2,'W',SDB['52'])
-    S53 = SudokuSpace(5,3,'W',SDB['53'])
-    S54 = SudokuSpace(5,4,'C',SDB['54'])
-    S55 = SudokuSpace(5,5,'C',SDB['55'])
-    S56 = SudokuSpace(5,6,'C',SDB['56'])
-    S57 = SudokuSpace(5,7,'E',SDB['57'])
-    S58 = SudokuSpace(5,8,'E',SDB['58'])
-    S59 = SudokuSpace(5,9,'E',SDB['59'])
-
-    S61 = SudokuSpace(6,1,'W',SDB['61'])
-    S62 = SudokuSpace(6,2,'W',SDB['62'])
-    S63 = SudokuSpace(6,3,'W',SDB['63'])
-    S64 = SudokuSpace(6,4,'C',SDB['64'])
-    S65 = SudokuSpace(6,5,'C',SDB['65'])
-    S66 = SudokuSpace(6,6,'C',SDB['66'])
-    S67 = SudokuSpace(6,7,'E',SDB['67'])
-    S68 = SudokuSpace(6,8,'E',SDB['68'])
-    S69 = SudokuSpace(6,9,'E',SDB['69'])
-    
-    S71 = SudokuSpace(7,1,'SW',SDB['71'])
-    S72 = SudokuSpace(7,2,'SW',SDB['72'])
-    S73 = SudokuSpace(7,3,'SW',SDB['73'])
-    S74 = SudokuSpace(7,4,'S',SDB['74'])
-    S75 = SudokuSpace(7,5,'S',SDB['75'])
-    S76 = SudokuSpace(7,6,'S',SDB['76'])
-    S77 = SudokuSpace(7,7,'SE',SDB['77'])
-    S78 = SudokuSpace(7,8,'SE',SDB['78'])
-    S79 = SudokuSpace(7,9,'SE',SDB['79'])
-    
-    S81 = SudokuSpace(8,1,'SW',SDB['81'])
-    S82 = SudokuSpace(8,2,'SW',SDB['82'])
-    S83 = SudokuSpace(8,3,'SW',SDB['83'])
-    S84 = SudokuSpace(8,4,'S',SDB['84'])
-    S85 = SudokuSpace(8,5,'S',SDB['85'])
-    S86 = SudokuSpace(8,6,'S',SDB['86'])
-    S87 = SudokuSpace(8,7,'SE',SDB['87'])
-    S88 = SudokuSpace(8,8,'SE',SDB['88'])
-    S89 = SudokuSpace(8,9,'SE',SDB['89'])
-
-    S91 = SudokuSpace(9,1,'SW',SDB['91'])
-    S92 = SudokuSpace(9,2,'SW',SDB['92'])
-    S93 = SudokuSpace(9,3,'SW',SDB['93'])
-    S94 = SudokuSpace(9,4,'S',SDB['94'])
-    S95 = SudokuSpace(9,5,'S',SDB['95'])
-    S96 = SudokuSpace(9,6,'S',SDB['96'])
-    S97 = SudokuSpace(9,7,'SE',SDB['97'])
-    S98 = SudokuSpace(9,8,'SE',SDB['98'])
-    S99 = SudokuSpace(9,9,'SE',SDB['99'])
-    SpaceList.extend((S11,S12,S13,S14,S15,S16,S17,S18,S19,S21,S22,S23,S24,S25,S26,S27,S28,S29,S31,S32,S33,S34,S35,S36,S37,S38,S39,S41,S42,S43,S44,S45,S46,S47,S48,S49,S51,S52,S53,S54,S55,S56,S57,S58,S59,S61,S62,S63,S64,S65,S66,S67,S68,S69,S71,S72,S73,S74,S75,S76,S77,S78,S79,S81,S82,S83,S84,S85,S86,S87,S88,S89,S91,S92,S93,S94,S95,S96,S97,S98,S99))
-
-def LogicLoop():
-    
-    while True:
-        PreLoop.clear()
-        for V in range(0,81):
-            PreLoop.append(str(SpaceList[V].value))
-
-        Logic()
-        
-        PostLoop.clear()
-        for V in range(0,81):
-            PostLoop.append(str(SpaceList[V].value))
-        
-        if PreLoop == PostLoop:
-            break
-        
-def Main():
-    AssignDictValues()
-    InitSpaceClasses()
-    CreateASCIIBoard()
-    LogicLoop()
-    CreateASCIIBoard()
-    
-
-Main()
+}
