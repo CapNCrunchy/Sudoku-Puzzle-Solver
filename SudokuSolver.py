@@ -8,7 +8,8 @@
 #Dictionary for Sudoku Spaces
 #Key is read as first number is row and the second number is column
 #Value will be 1-9 if it contains that value and 0 if it is empty
-
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 SudokuBoard = {'R1C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]},
                 'R1C2':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValues':[1,2,3,4,5,6,7,8,9]},
@@ -103,26 +104,35 @@ SudokuBoard = {'R1C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValue
                 }
 
 inputBoard = '''
-000|000|000
-000|000|000
-000|000|000
+035|009|100
+100|000|020
+090|410|036
 -----------
-000|000|000
-000|010|000
-000|000|000
+509|708|300
+068|000|290
+007|906|408
 -----------
-000|000|000
-000|000|000
-000|000|000
+920|047|010
+080|000|003
+003|800|970
 '''
 def importInputBoard(board):
     #loop through using regex to check for a number
     #counter to keep track of position on the input board
 
-    #counter = 11
+    counter = 11
+    position = ''
     for i in range(len(board)):
-        if(board[i] in ['1','2','3','4','5','6','7','8','9']):
-            print("yay")
+        if(board[i] in ['0','1','2','3','4','5','6','7','8','9']):
+            position = 'R' + str(int(counter/10)) + 'C' + str(counter%10)
+            SudokuBoard[position]['value'] = board[i]
+            counter += 1
+            if(counter%10 == 0):
+                counter +=1
+
+    #test/check the board
+    #pp.pprint(SudokuBoard)
+
 
 
 importInputBoard(inputBoard)
