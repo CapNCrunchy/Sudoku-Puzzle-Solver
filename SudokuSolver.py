@@ -104,7 +104,34 @@ SudokuBoard = {'R1C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValue
                 }
 
 inputBoard = '''
-035|009|100
+123|406|789
+906|000|000
+875|000|000
+-----------
+700|000|000
+600|000|000
+000|000|000
+-----------
+400|000|000
+300|000|000
+200|000|000
+'''
+
+'''
+000|000|000
+000|000|000
+000|000|000
+-----------
+000|000|000
+000|000|000
+000|000|000
+-----------
+000|000|000
+000|000|000
+000|000|000
+'''
+
+'''035|009|100
 100|000|020
 090|410|036
 -----------
@@ -114,8 +141,14 @@ inputBoard = '''
 -----------
 920|047|010
 080|000|003
-003|800|970
-'''
+003|800|970'''
+
+
+#creates the key using the number position (eg 12, row 1 column 2)
+def numToSpace(num):
+    position = 'R' + str(int(num/10)) + 'C' + str(num%10)
+    return position
+
 def importInputBoard(board):
     #loop through using regex to check for a number
     #counter to keep track of position on the input board
@@ -124,8 +157,16 @@ def importInputBoard(board):
     position = ''
     for i in range(len(board)):
         if(board[i] in ['0','1','2','3','4','5','6','7','8','9']):
-            position = 'R' + str(int(counter/10)) + 'C' + str(counter%10)
+            
+            position = numToSpace(counter)
+            
+            #sets the value of the position to the dictionary, and the state
             SudokuBoard[position]['value'] = board[i]
+            if(int(board[i]) != 0):
+                 SudokuBoard[position]['state'] = 'solved'
+            
+
+            #counter skips multiples of 10 since there are 9 rows and columns
             counter += 1
             if(counter%10 == 0):
                 counter +=1
@@ -133,6 +174,55 @@ def importInputBoard(board):
     #test/check the board
     #pp.pprint(SudokuBoard)
 
+#Functions for the logic
+#loops through row, column, region and returns all values found there
+#A remove impossible nums from a spaces posValues list (ie loop through the space's row, column, and region)
 
+def SearchRegion(targetReg):
+    #loops through the spaces with the target region and adds the value of the space to a list, returns list
+    
+    regValues = []
+
+    for i in SudokuBoard:
+        
+        if(SudokuBoard[i]['region'] == targetReg) and SudokuBoard[i]['value'] != '0':
+            regValues.append(SudokuBoard[i]['value'])
+    
+    return regValues
+
+def SearchRow(targetRow):
+    #loops through the spaces with the target row and adds the value of the space to a list, returns list
+    
+    rowValues = []
+
+    for i in SudokuBoard:
+        
+        if(i[1] == targetRow and SudokuBoard[i]['value'] != '0'):
+            rowValues.append(SudokuBoard[i]['value'])
+    
+    return rowValues
+
+def SearchCol(targetCol):
+    #loops through the spaces with the target Column and adds the value of the space to a list, returns list
+    
+    colValues = []
+
+    for i in SudokuBoard:
+        
+        if(i[3] == targetCol and SudokuBoard[i]['value'] != '0'):
+            colValues.append(SudokuBoard[i]['value'])
+    
+    return colValues
+
+def delImpossibleValues(space):
+    rowVals = SearchRow(space[1])
+    print(rowVals)
+    for a in rowVals:
+        if int(a) in SudokuBoard[space]['posValues']:
+            SudokuBoard[space]['posValues'].remove(int(a))
+    
+    print(SudokuBoard[space]['posValues'])
 
 importInputBoard(inputBoard)
+
+delImpossibleValues('R1C5')
