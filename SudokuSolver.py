@@ -104,34 +104,7 @@ SudokuBoard = {'R1C1':{'region':'NW', 'State':'unsolved', 'value':'0', 'posValue
                 }
 
 inputBoard = '''
-123|406|789
-906|000|000
-875|000|000
------------
-700|000|000
-600|000|000
-000|000|000
------------
-400|000|000
-300|000|000
-200|000|000
-'''
-
-'''
-000|000|000
-000|000|000
-000|000|000
------------
-000|000|000
-000|000|000
-000|000|000
------------
-000|000|000
-000|000|000
-000|000|000
-'''
-
-'''035|009|100
+035|009|100
 100|000|020
 090|410|036
 -----------
@@ -141,7 +114,34 @@ inputBoard = '''
 -----------
 920|047|010
 080|000|003
-003|800|970'''
+003|800|970
+'''
+
+emptyBoard= '''
+000|000|000
+000|000|000
+000|000|000
+-----------
+000|000|000
+000|000|000
+000|000|000
+-----------
+000|000|000
+000|000|000
+000|000|000
+'''
+
+'''800|000|000
+003|600|000
+070|090|200
+-----------
+050|007|000
+000|045|700
+000|100|030
+-----------
+001|000|068
+008|500|010
+090|000|400'''
 
 
 #creates the key using the number position (eg 12, row 1 column 2)
@@ -171,8 +171,24 @@ def importInputBoard(board):
             if(counter%10 == 0):
                 counter +=1
 
-    #test/check the board
-    #pp.pprint(SudokuBoard)
+    
+
+def printCurrentBoard():
+    NewBoard = ''''''
+    counter = 11
+    for i in range(len(emptyBoard)):
+        if(emptyBoard[i] == '0'):
+            position = numToSpace(counter)
+            NewBoard = NewBoard + str(SudokuBoard[position]['value'])
+            counter += 1
+            
+            if(counter%10 == 0):
+                counter +=1
+        else:
+            NewBoard = NewBoard + emptyBoard[i]
+        
+        
+    print(NewBoard)
 
 #Functions for the logic
 #loops through row, column, region and returns all values found there
@@ -215,14 +231,54 @@ def SearchCol(targetCol):
     return colValues
 
 def delImpossibleValues(space):
+
+    #searching/deleting row's values from list
     rowVals = SearchRow(space[1])
-    print(rowVals)
-    for a in rowVals:
-        if int(a) in SudokuBoard[space]['posValues']:
-            SudokuBoard[space]['posValues'].remove(int(a))
     
-    print(SudokuBoard[space]['posValues'])
+    for r in rowVals:
+        if int(r) in SudokuBoard[space]['posValues']:
+            SudokuBoard[space]['posValues'].remove(int(r))
 
-importInputBoard(inputBoard)
+    #searching/deleting column's values from list
+    colVals = SearchCol(space[3])
+    
+    for c in colVals:
+        if int(c) in SudokuBoard[space]['posValues']:
+            SudokuBoard[space]['posValues'].remove(int(c))
 
-delImpossibleValues('R1C5')
+    
+    #searching/deleting region's values from list
+    regVals = SearchRegion(SudokuBoard[space]['region'])
+    
+    for R in regVals:
+        if int(R) in SudokuBoard[space]['posValues']:
+            SudokuBoard[space]['posValues'].remove(int(R))    
+    
+    if(len(SudokuBoard[space]['posValues']) == 1):
+        SudokuBoard[space]['value'] = SudokuBoard[space]['posValues'][0]
+
+
+def baseLogicLoop(attempts):
+    for i in range(attempts):
+        for s in SudokuBoard:
+            if(SudokuBoard[s]['value'] == '0'):
+                delImpossibleValues(s)
+        printCurrentBoard()
+
+
+
+
+
+def Main():
+    importInputBoard(inputBoard)
+    printCurrentBoard()
+    baseLogicLoop(3)
+    
+    print(SudokuBoard['R5C9'])
+
+    
+    
+
+
+
+Main()
